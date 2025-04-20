@@ -1,28 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/style.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=PT+Serif+Caption&display=swap"
+      rel="stylesheet"
+    />
+
     <title>HomePage</title>
-</head>
-<body>
-    <navbar>
-        <div class="navbar__container">
-                <ul class="navbar-nav">
-                    <li class="navbar-item">
-                        <a href="#">Profile</a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="#">Profile</a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="#">About</a>
-                    </li>
-                </ul>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__container">
+        <img
+          src="/src/img/menu-burger-horizontal-svgrepo-com.svg"
+          id="menuIcon"
+          alt="menu"
+        />
+        <ul class="navbar__menu" id="menu">
+          <li class="navbar-item">
+            <a class="navbar--link" href="#">ACCOUNT</a>
+          </li>
+          <li class="navbar-item">
+            <a class="navbar--link" href="#">SETTINGS</a>
+          </li>
+          <li class="navbar-item">
+            <a class="navbar--link" href="#">LOGOUT</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <section id="hero">
+      <div class="hero__container">
+        <div class="hero__content">
+          <h1 class="h1--hero">Let's Push Our Goals!</h1>
+          <p class="p1--hero">Focus on youre training, We track it.</p>
+          <h1 class="h2--hero">Create You're Account today to get started</h1>
+          <button onclick="window.location.href='register.html'" class="btn">Register</button>
+          <button onclick="window.location.href='login.html'" class="btn">Login</button>
         </div>
-    </navbar>
-    
-</body>
-<script src="app.js/scripts.js"></script>
+      </div>
+    </section>
+  </body>
+  <script src="app/scripts.js"></script>
+  <script src="/src/backend/index.js"></script>
 </html>
