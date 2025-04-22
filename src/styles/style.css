@@ -4,10 +4,16 @@
   font-style: normal;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background: linear-gradient(
     135deg,
-    #c9c9c9,
+    #077e50,
     #333,
     #666,
     #000530,
@@ -22,7 +28,7 @@ body {
   position: relative;
   display: flex;
   justify-content: flex-end;
-  z-index: 999;
+  z-index: 10;
   margin-right: 20px;
 }
 
@@ -31,6 +37,10 @@ body {
   cursor: pointer;
   transition: transform 0.3s ease;
   margin: 20px;
+  transform: 0.3s;
+}
+#menuIcon:hover {
+  transform: scale(1, 2);
 }
 
 #menuIcon.rotate {
@@ -40,9 +50,9 @@ body {
 .navbar__menu {
   list-style: none;
   position: absolute;
-  top: 50px; /* adjust based on icon size */
+  top: 50px;
   right: 0;
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 8px;
   display: none;
   flex-direction: column;
@@ -59,14 +69,14 @@ body {
 }
 
 .navbar--link {
-  color: rgb(69, 69, 69);
+  color: rgb(255, 255, 255);
   text-decoration: none;
   transition: color 0.3s;
   font-family: "Inria Sans", sans-serif;
 }
 
 .navbar--link:hover {
-  color: wheat;
+  color: rgb(44, 76, 219);
 }
 
 .hero__container {
@@ -76,10 +86,16 @@ body {
   text-align: center;
   justify-content: center;
 }
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+}
 
 .h1--hero {
   font-size: 32px;
-  color: #333;
+  color: #ffffff;
   font-family: "Inria Sans", sans-serif;
 }
 
@@ -102,13 +118,13 @@ body {
   background-color: #444444;
   color: #ffffff;
   border: none;
-  outline: none; 
+  outline: none;
   border-radius: 10px;
   transition: background-color 0.6s ease, color 0.3s ease;
   cursor: pointer;
   font-family: "Inria Sans", sans-serif;
   box-shadow: none;
-  padding: 12px 24px; /* Added padding for better look */
+  padding: 12px 24px;
 }
 .btn:hover {
   background-color: #0055ff;
@@ -116,4 +132,186 @@ body {
   box-shadow: none;
 }
 
+/*LOGIN__PAGE*/
 
+.login__container {
+  flex-direction: column;
+  height: 100vh;
+}
+.login__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login__content h2 {
+  display: flex;
+  font-size: 24px;
+  font-family: "Inria Sans", sans-serif;
+}
+#loginForm {
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+}
+
+#email {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 24px;
+}
+
+#password {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 24px;
+}
+
+/*REGISTER__PAGE*/
+.register__container {
+  flex-direction: column;
+  height: 100vh;
+}
+.register__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.register__content h2 {
+  display: flex;
+  font-size: 24px;
+  font-family: "Inria Sans", sans-serif;
+}
+#registerForm {
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+}
+
+#username {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 24px;
+}
+
+/* Profile Section */
+#profile {
+  padding: 20px;
+}
+
+.workout__container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+#workoutForm {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  padding: 10px 15px;
+  gap: 20px;
+}
+.workout__container h1 {
+  display: flex;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 32px;
+  color: white;
+  text-align: center;
+  justify-content: center;
+}
+
+#workoutType, #duration, #focus, #goal {
+  padding: 10px 15px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+}
+
+#workoutList div {
+  display: flex;
+  gap: 20px;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 16px;
+  padding: 30px 20px;
+  background-color: rgb(9, 13, 48);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: white;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#workoutList button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#workoutList button:hover {
+  background-color: #a04545;
+}
+
+/* Edit Workout Section */
+#editWorkoutSection {
+  display: none; /* Hide by default */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+#editWorkoutSection input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+#editWorkoutSection button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#editWorkoutSection button:hover {
+  background-color: #45a049;
+}
+
+#closeEditSection {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#closeEditSection:hover {
+  background-color: #e53935;
+}
+
+.hidden {
+  display: none !important;
+}

@@ -23,13 +23,13 @@
         />
         <ul class="navbar__menu" id="menu">
           <li class="navbar-item">
-            <a class="navbar--link" href="#">ACCOUNT</a>
+            <a class="navbar--link" href="/src/profile.html">ACCOUNT</a>
           </li>
           <li class="navbar-item">
-            <a class="navbar--link" href="#">SETTINGS</a>
+            <a class="navbar--link" href="/src/register.html">REGISTER</a>
           </li>
           <li class="navbar-item">
-            <a class="navbar--link" href="#">LOGOUT</a>
+            <a class="navbar--link" href="/src/login.html">LOGIN</a>
           </li>
         </ul>
       </div>
@@ -38,14 +38,21 @@
       <div class="hero__container">
         <div class="hero__content">
           <h1 class="h1--hero">Let's Push Our Goals!</h1>
-          <p class="p1--hero">Focus on youre training, We track it.</p>
-          <h1 class="h2--hero">Create You're Account today to get started</h1>
-          <button onclick="window.location.href='register.html'" class="btn">Register</button>
-          <button onclick="window.location.href='login.html'" class="btn">Login</button>
+          <p class="p1--hero">Write down youre scheme to track the progress!</p>
+          <h1 class="h2--hero">Create you're account or login</h1>
+          <button onclick="window.location.href='register.html'" class="btn">
+            Register
+          </button>
+          <button
+            onclick="window.location.href='login.html'"
+            id="loginBtn"
+            class="btn"
+          >
+            Login
+          </button>
         </div>
       </div>
     </section>
   </body>
   <script src="app/scripts.js"></script>
-  <script src="/src/backend/index.js"></script>
 </html>

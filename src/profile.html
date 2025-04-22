@@ -1,35 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/style.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=PT+Serif+Caption&display=swap"
+      rel="stylesheet"
+    />
     <title>Profile</title>
-</head>
-<body>
-    <navbar>
-        <div class="navbar__container">
-                <ul class="navbar__menu">
-                    <img src="/src/img/menu-burger-horizontal-svgrepo-com.svg">
-                    <li class="navbar-item">
-                        <a class="navbar--link"href="#">Profile</a>
-                    </li>
-                    <li class="navbar-item">
-                        <a class="navbar--link" href="#">Profile</a>
-                    </li>
-                    <li class="navbar-item">
-                        <a class="navbar--link" href="#">About</a>
-                    </li>
-                </ul>
-        </div>
-    </navbar>
+  </head>
+  <body>
+    <!--NAVBAR-->
+    <nav class="navbar">
+      <div class="navbar__container">
+        <img
+          src="/src/img/menu-burger-horizontal-svgrepo-com.svg"
+          id="menuIcon"
+          alt="menu"
+        />
+        <ul class="navbar__menu" id="menu">
+          <li class="navbar-item">
+            <a class="navbar--link" href="/src/index.html">HOMEPAGE</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <section id="profile">
-        <div class="profile__container">
-            <div class="profile__content">
-                
-            </div>
+      <div class="workout__container">
+        <h1>Start creating youre scheme</h1>
+
+        <!-- Workout Form -->
+        <form id="workoutForm" class="workout-form">
+          <input
+            type="text"
+            id="workoutType"
+            placeholder="Workout Type"
+            required
+          />
+          <input
+            type="number"
+            id="duration"
+            placeholder="Duration (min)"
+            required
+          />
+          <input type="text" id="focus" placeholder="Focus" required />
+          <input type="text" id="goal" placeholder="Goal" required />
+          <button type="submit" class="btn">Add Workout</button>
+        </form>
+
+        <!-- Edit Workout -->
+        <div id="editWorkoutSection" class="edit-workout-section hidden">
+          <h2>Edit Workout</h2>
+          <form id="editWorkoutForm">
+            <input
+              type="text"
+              id="editWorkoutType"
+              placeholder="Workout Type"
+              required
+            />
+            <input
+              type="number"
+              id="editDuration"
+              placeholder="Duration (min)"
+              required
+            />
+            <input type="text" id="editFocus" placeholder="Focus" required />
+            <input type="text" id="editGoal" placeholder="Goal" required />
+            <button type="submit" class="btn">Save</button>
+            <button type="button" id="closeEditSection" class="btn btn--cancel">
+              Cancel
+            </button>
+          </form>
         </div>
+
+        <!-- Workout List -->
+        <div id="workoutList" class="workout-list"></div>
+      </div>
     </section>
-</body>
-<script src="app.js/scripts.js"></script>
+    <script src="app/scripts.js"></script>
+  </body>
 </html>
