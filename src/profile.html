@@ -52,29 +52,21 @@
         </form>
 
         <!-- Edit Workout -->
-        <div id="editWorkoutSection" class="edit-workout-section hidden">
-          <h2>Edit Workout</h2>
+        <section id="editWorkoutSection" class="hidden">
           <form id="editWorkoutForm">
+            <input id="editWorkoutType" placeholder="Workout Type" required />
             <input
-              type="text"
-              id="editWorkoutType"
-              placeholder="Workout Type"
-              required
-            />
-            <input
-              type="number"
               id="editDuration"
+              type="number"
               placeholder="Duration (min)"
               required
             />
-            <input type="text" id="editFocus" placeholder="Focus" required />
-            <input type="text" id="editGoal" placeholder="Goal" required />
-            <button type="submit" class="btn">Save</button>
-            <button type="button" id="closeEditSection" class="btn btn--cancel">
-              Cancel
-            </button>
+            <input id="editFocus" placeholder="Focus" required />
+            <input id="editGoal" placeholder="Goal" required />
+            <button type="submit">Update</button>
+            <button type="button" class="btn btn--cancel" id="cancelEdit">Cancel</button>
           </form>
-        </div>
+        </section>
 
         <!-- Workout List -->
         <div id="workoutList" class="workout-list"></div>

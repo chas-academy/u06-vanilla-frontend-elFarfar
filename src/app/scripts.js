@@ -1,215 +1,276 @@
+const API_BASE = "https://u05-api.onrender.com";
+
+const showMessage = (msg) => alert(msg);
+const getToken = () => localStorage.getItem("token");
+const setToken = (token) => localStorage.setItem("token", token);
+const redirect = (url) => (window.location.href = url);
+const qs = (selector) => document.querySelector(selector);
+
+const getFormValues = (ids, stripPrefix = false) =>
+  ids.reduce((acc, id) => {
+    const key = stripPrefix
+      ? id.replace(/^edit/, "").replace(/^./, (c) => c.toLowerCase())
+      : id;
+    acc[key] = qs(`#${id}`).value;
+    return acc;
+  }, {});
+
+const setFormValues = (data) => {
+  Object.entries(data).forEach(([key, value]) => {
+    const el = qs(`#edit${capitalizeFirst(key)}`);
+    if (el) el.value = value;
+  });
+};
+
+const capitalizeFirst = (string) =>
+  string.charAt(0).toUpperCase() + string.slice(1);
+
+const currentEdit = {
+  id: null,
+};
+
 document.addEventListener("DOMContentLoaded", () => {
-  const menuIcon = document.getElementById("menuIcon");
-  const menu = document.getElementById("menu");
+  // Mobile menu toggle
+  const menuIcon = qs("#menuIcon");
+  const menu = qs("#menu");
+  menuIcon?.addEventListener("click", () => {
+    menu.classList.toggle("show");
+    menuIcon.classList.toggle("rotate");
+  });
 
-  if (menuIcon && menu) {
-    menuIcon.addEventListener("click", () => {
-      menu.classList.toggle("show");
-      menuIcon.classList.toggle("rotate");
-    });
-  }
+  setupRegister();
+  setupLogin();
+  setupWorkoutForm();
+  setupEditForm();
+  getWorkouts();
+});
 
-  let currentEditId = null;
+// ------------------ REGISTER ------------------
+function setupRegister() {
+  const form = qs("#registerForm");
+  if (!form) return;
 
-  // ------------------ REGISTER FORM ------------------
-  const registerForm = document.getElementById("registerForm");
-  if (registerForm) {
-    registerForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      const res = await fetch(
-        "https://u05-api.onrender.com/api/auth/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, email, password }),
-        }
-      );
-
-      const data = await res.json();
-      if (res.ok) {
-        alert("Registered successfully!");
-        window.location.href = "login.html";
-      } else {
-        alert(data.message || "Registration failed");
-      }
-    });
-  }
-
-  // ------------------ LOGIN FORM ------------------
-  const loginForm = document.getElementById("loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      try {
-        const res = await fetch("https://u05-api.onrender.com/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-          localStorage.setItem("token", data.token);
-          alert("Login successful!");
-          window.location.href = "profile.html";
-        } else {
-          alert(data.message || "Login failed");
-        }
-      } catch (err) {
-        console.error("Login error:", err);
-        alert("Something went wrong. Please try again.");
-      }
-    });
-  }
-
-  // ------------------ WORKOUT FORM (CREATE) ------------------
-  const workoutForm = document.getElementById("workoutForm");
-  if (workoutForm) {
-    workoutForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const workoutType = document.getElementById("workoutType").value;
-      const duration = document.getElementById("duration").value;
-      const focus = document.getElementById("focus").value;
-      const goal = document.getElementById("goal").value;
-
-      const token = localStorage.getItem("token");
-
-      try {
-        const res = await fetch(
-          "https://u05-api.onrender.com/api/v1/workouts",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ workoutType, duration, focus, goal }),
-          }
-        );
-
-        const data = await res.json();
-
-        if (res.ok) {
-          alert("Workout added!");
-          workoutForm.reset();
-          getWorkouts();
-        } else {
-          alert(data.message || "Failed to add workout");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Something went wrong.");
-      }
-    });
-
-    getWorkouts();
-  }
-
-  // ------------------ FETCH & RENDER WORKOUTS (READ) ------------------
-  async function getWorkouts() {
-    const token = localStorage.getItem("token");
-    const workoutList = document.getElementById("workoutList");
-    if (!workoutList) return;
-    workoutList.innerHTML = "";
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const { username, email, password } = getFormValues([
+      "username",
+      "email",
+      "password",
+    ]);
 
     try {
-      const res = await fetch("https://u05-api.onrender.com/api/v1/workouts", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
       });
 
       const data = await res.json();
-
       if (res.ok) {
-        data.forEach((workout) => {
-          const div = document.createElement("div");
-          div.classList.add("workout-card");
-          div.innerHTML = `
-          <h3>${workout.workoutType}</h3>
-          <p>Duration: ${workout.duration} minutes</p>
-          <p>Focus: ${workout.focus}</p>
-          <p>Goal: ${workout.goal}</p>
-          <button class="btn btn--edit" 
-            data-id="${workout._id}" 
-            data-type="${workout.workoutType}" 
-            data-duration="${workout.duration}" 
-            data-focus="${workout.focus}" 
-            data-goal="${workout.goal}">
-            Edit
-          </button>
-          <button class="btn btn--delete" data-id="${workout._id}">Delete</button>
-        `;
-          workoutList.appendChild(div);
-
-          // Edit button
-          const editBtn = div.querySelector(".btn--edit");
-          if (editBtn) {
-            editBtn.addEventListener("click", () => {
-              currentEditId = editBtn.dataset.id;
-              document.getElementById("editWorkoutType").value =
-                editBtn.dataset.type;
-              document.getElementById("editDuration").value =
-                editBtn.dataset.duration;
-              document.getElementById("editFocus").value =
-                editBtn.dataset.focus;
-              document.getElementById("editGoal").value = editBtn.dataset.goal;
-              document
-                .getElementById("editWorkoutSection")
-                .classList.remove("hidden");
-            });
-          }
-
-          // Delete button 
-          const deleteBtn = div.querySelector(".btn--delete");
-          if (deleteBtn) {
-            deleteBtn.addEventListener("click", async () => {
-              const confirmed = confirm(
-                "Are you sure you want to delete this workout?"
-              );
-              if (!confirmed) return;
-
-              try {
-                const deleteRes = await fetch(
-                  `https://u05-api.onrender.com/api/v1/workouts/${workout._id}`,
-                  {
-                    method: "DELETE",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  }
-                );
-
-                const result = await deleteRes.json();
-
-                if (deleteRes.ok) {
-                  alert("Workout deleted!");
-                  getWorkouts();
-                } else {
-                  alert(result.message || "Failed to delete workout.");
-                }
-              } catch (err) {
-                console.error("Delete error:", err);
-                alert("Something went wrong.");
-              }
-            });
-          }
-        });
+        showMessage("Registered successfully!");
+        redirect("login.html");
       } else {
-        alert(data.message || "Could not load workouts");
+        showMessage(data.message || "Registration failed");
       }
     } catch (err) {
       console.error(err);
+      showMessage("An error occurred.");
+    }
+  });
+}
+
+// ------------------ LOGIN ------------------
+function setupLogin() {
+  const form = qs("#loginForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const { email, password } = getFormValues(["email", "password"]);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setToken(data.token);
+        showMessage("Login successful!");
+        redirect("profile.html");
+      } else {
+        showMessage(data.message || "Login failed");
+      }
+    } catch (err) {
+      console.error(err);
+      showMessage("Something went wrong.");
+    }
+  });
+}
+
+// ------------------ CREATE WORKOUT ------------------
+function setupWorkoutForm() {
+  const form = qs("#workoutForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const { workoutType, duration, focus, goal } = getFormValues([
+      "workoutType",
+      "duration",
+      "focus",
+      "goal",
+    ]);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/workouts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify({ workoutType, duration, focus, goal }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        showMessage("Workout added!");
+        form.reset();
+        getWorkouts();
+      } else {
+        showMessage(data.message || "Failed to add workout");
+      }
+    } catch (err) {
+      console.error(err);
+      showMessage("Something went wrong.");
+    }
+  });
+}
+console.log("Sending update to:", currentEdit.id);
+console.log("Edit values:", { workoutType, duration, focus, goal });//LOGS FOR EDIT ERROR 
+
+// ------------------ EDIT WORKOUT ------------------
+function setupEditForm() {
+  const form = qs("#editWorkoutForm");
+  const cancelBtn = qs("#cancelEdit");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+   const { workoutType, duration, focus, goal } = getFormValues(
+     ["editWorkoutType", "editDuration", "editFocus", "editGoal"],
+     true
+   );
+
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/workouts/${currentEdit.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify({
+          workoutType,
+          duration,
+          focus,
+          goal,
+        }),
+      });
+
+      const data = await res.json();
+      console.log("Updated workout returned:", data); // LOGING EDIT ERROR
+      if (res.ok) {
+        showMessage("Workout updated!");
+        form.reset();
+        qs("#editWorkoutSection").classList.add("hidden");
+        getWorkouts();
+      } else {
+        showMessage(data.message || "Failed to update workout");
+      }
+    } catch (err) {
+      console.error(err);
+      showMessage("Error updating workout");
+    }
+  });
+
+  cancelBtn?.addEventListener("click", () => {
+    form.reset();
+    qs("#editWorkoutSection").classList.add("hidden");
+    currentEdit.id = null;
+  });
+}
+
+// ------------------ FETCH & DISPLAY WORKOUTS ------------------
+async function getWorkouts() {
+  const container = qs("#workoutList");
+  if (!container) return;
+  container.innerHTML = "";
+  container.addEventListener("click", handleWorkoutButtons);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/v1/workouts`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    });
+
+    const workouts = await res.json();
+    if (!res.ok)
+      return showMessage(workouts.message || "Failed to load workouts");
+
+    workouts.forEach((w) => {
+      const div = document.createElement("div");
+      div.className = "workout-card";
+      div.innerHTML = `
+        <h3>${w.workoutType}</h3>
+        <p>Duration: ${w.duration} minutes</p>
+        <p>Focus: ${w.focus}</p>
+        <p>Goal: ${w.goal}</p>
+        <button class="btn btn--edit" data-id="${w._id}" data-type="${w.workoutType}" data-duration="${w.duration}" data-focus="${w.focus}" data-goal="${w.goal}">Edit</button>
+        <button class="btn btn--delete" data-id="${w._id}">Delete</button>
+      `;
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error(err);
+    showMessage("Failed to fetch workouts");
+  }
+}
+
+async function handleWorkoutButtons(e) {
+  const id = e.target.dataset.id;
+  if (!id) return;
+
+  if (e.target.classList.contains("btn--delete")) {
+    if (!confirm("Delete this workout?")) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/workouts/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+      const result = await res.json();
+
+      if (res.ok) {
+        showMessage("Workout deleted!");
+        getWorkouts();
+      } else {
+        showMessage(result.message || "Delete failed");
+      }
+    } catch (err) {
+      console.error(err);
+      showMessage("Error deleting workout");
     }
   }
-});
+
+  if (e.target.classList.contains("btn--edit")) {
+    currentEdit.id = id;
+    setFormValues({
+      workoutType: e.target.dataset.type,
+      duration: e.target.dataset.duration,
+      focus: e.target.dataset.focus,
+      goal: e.target.dataset.goal,
+    });
+    qs("#editWorkoutSection").classList.remove("hidden");
+  }
+}

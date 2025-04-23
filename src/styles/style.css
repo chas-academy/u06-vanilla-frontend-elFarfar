@@ -58,7 +58,6 @@ body {
   flex-direction: column;
   gap: 1rem;
   z-index: 1000;
-  width: fit-content;
 }
 .navbar__menu.show {
   display: flex;
@@ -73,11 +72,11 @@ body {
   text-decoration: none;
   transition: color 0.3s;
   font-family: "Inria Sans", sans-serif;
+  text-align: center;
+  align-items: center;
+ 
 }
 
-.navbar--link:hover {
-  color: rgb(44, 76, 219);
-}
 
 .hero__container {
   display: flex;
@@ -213,6 +212,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: fit-content;
 }
 
 
@@ -268,50 +268,145 @@ body {
   background-color: #a04545;
 }
 
-/* Edit Workout Section */
-#editWorkoutSection {
-  display: none; /* Hide by default */
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
-}
-
-#editWorkoutSection input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-#editWorkoutSection button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  margin-right: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-#editWorkoutSection button:hover {
-  background-color: #45a049;
-}
-
-#closeEditSection {
-  background-color: #f44336;
-  color: white;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-#closeEditSection:hover {
-  background-color: #e53935;
-}
+/*Edit form section */
 
 .hidden {
-  display: none !important;
+  display: none;
+}
+
+#editWorkoutSection {
+  background-color: #1f018a;
+  justify-content: space-around;
+  padding: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#editWorkoutType, #editDuration, #editFocus, #editGoal {
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+}
+
+#editWorkoutForm button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 10px;
+  
+}
+
+#editWorkoutForm button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+#editWorkoutForm .btn--cancel {
+  background-color: #a10010;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 18px;
+
+}
+
+/* ---------------------- Responsive Styles ---------------------- */
+
+@media (max-width: 768px) {
+  .hero__container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .hero__content {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .h1--hero, .h2--hero {
+    font-size: 24px;
+  }
+
+  .p1--hero {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+
+  .login__content, .register__content, .workout__container {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #workoutList div {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  #menuIcon {
+    width: 40px;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .h1--hero {
+    font-size: 20px;
+  }
+
+  .p1--hero, .h2--hero {
+    font-size: 16px;
+  }
+
+  .btn, #email, #password, #username,
+  #workoutType, #duration, #focus, #goal,
+  #editWorkoutType, #editDuration, #editFocus, #editGoal {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+
+  .navbar__menu {
+    right: 10px;
+    padding: 1rem;
+  }
+
+  .navbar--link {
+    font-size: 16px;
+  }
+
+  #workoutList div {
+    padding: 20px 10px;
+  }
+
+  #workoutList button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  #editWorkoutForm button {
+    font-size: 16px;
+  }
 }
