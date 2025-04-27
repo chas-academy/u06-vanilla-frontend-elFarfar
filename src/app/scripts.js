@@ -6,14 +6,16 @@ const setToken = (token) => localStorage.setItem("token", token);
 const redirect = (url) => (window.location.href = url);
 const qs = (selector) => document.querySelector(selector);
 
+//Hä
 const getFormValues = (ids, stripPrefix = false) =>
   ids.reduce((acc, id) => {
+    // Om stripPrefix är true, ta bort "edit" från ID och gör den första bokstaven liten, förbättrar Edit bugg. 
     const key = stripPrefix
       ? id.replace(/^edit/, "").replace(/^./, (c) => c.toLowerCase())
       : id;
     acc[key] = qs(`#${id}`).value;
     return acc;
-  }, {});
+  }, {});  // Startar med ett tomt objekt
 
 const setFormValues = (data) => {
   Object.entries(data).forEach(([key, value]) => {
@@ -149,7 +151,6 @@ function setupWorkoutForm() {
   });
 }
 console.log("Sending update to:", currentEdit.id);
-console.log("Edit values:", { workoutType, duration, focus, goal });//LOGS FOR EDIT ERROR 
 
 // ------------------ EDIT WORKOUT ------------------
 function setupEditForm() {
